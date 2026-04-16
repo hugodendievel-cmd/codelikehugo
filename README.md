@@ -215,6 +215,29 @@ specs/
 
 ---
 
+## Configuration (optional)
+
+Out of the box, codelikehugo assumes a single-repo project and no
+protected paths. For multi-repo setups (e.g. specs in one repo, code
+in a sibling repo) or to mark submodules/vendored code as read-only,
+copy `repos.yaml.example` from this plugin into your project:
+
+```bash
+mkdir -p .codelikehugo
+cp path/to/plugin/repos.yaml.example .codelikehugo/repos.yaml
+```
+
+Then uncomment the sections you need. Common cases:
+
+- **Multi-repo** — set `code.root: ../my-app` so Romain commits and
+  Victor opens PRs in a sibling repository while artifacts stay local.
+- **Protected paths** — list submodules or vendored directories under
+  `protected:`. Agents HALT and report rather than editing them.
+
+See `repos.yaml.example` for the full schema.
+
+---
+
 ## Installation
 
 ```bash

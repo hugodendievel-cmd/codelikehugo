@@ -1,0 +1,39 @@
+# codelikehugo — repository configuration (OPTIONAL)
+#
+# Copy this file to `.codelikehugo/repos.yaml` in your project root
+# to customize agent behavior. If absent, codelikehugo assumes a
+# single-repo project (current working directory for everything) and
+# no protected paths.
+#
+# All paths are relative to the project root unless absolute.
+
+# --- Where specs, stories, and sprint-status live -----------------------
+# Florent writes here. Defaults auto-detected: `specs/` (codelikehugo
+# format) or `_bmad-output/` (BMAD format). Override only if your
+# layout differs.
+#
+# artifacts:
+#   root: .                    # repo root that holds artifacts
+#   path: specs                # subdirectory (specs/ or _bmad-output/)
+
+# --- Where code is implemented ------------------------------------------
+# Romain commits and Victor opens PRs here. Defaults to the same repo
+# as artifacts. Override for multi-repo projects — e.g. planning
+# artifacts in one repo, source code in a sibling repo.
+#
+# code:
+#   root: .                    # e.g. "../my-app" for a sibling repo
+#   remote: origin             # git remote to push to
+#   default_branch: main       # base branch for the first PR in a stack
+
+# --- Read-only paths ----------------------------------------------------
+# Agents MUST NOT modify these. Useful for git submodules, vendored
+# dependencies, or packages owned by another team. Supports globs.
+# Romain and Victor will HALT and report if a task requires edits
+# inside a protected path rather than silently modifying it.
+#
+# protected:
+#   - node_modules/**
+#   - vendor/**
+#   - third_party/**
+#   # - packages/shared-lib/**   # submodule owned by another team

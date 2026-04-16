@@ -71,6 +71,24 @@ After detecting the format, verify `{sprint_status}` file exists. If not, HALT: 
 
 Report: "Detected **{format}** artifacts at `{path}`."
 
+### Load Repos Config (optional)
+
+Check if `.codelikehugo/repos.yaml` exists at project root. If absent,
+use defaults below. If present, parse and resolve:
+
+- `{artifacts_root}` — repo root holding artifacts (default: project root)
+- `{code_root}` — repo root for code commits and PRs (default: project root)
+- `{code_remote}` — git remote to push to (default: `origin`)
+- `{code_default_branch}` — base branch for first PR (default: auto-detect `main`/`master`)
+- `{protected_paths}` — list of read-only glob patterns (default: empty)
+
+If `{code_root}` differs from the project root, run git commands for
+Romain/Victor with `git -C {code_root}` so branches and commits land in
+the right repo. Sprint-status and story files always live under
+`{artifacts_root}`.
+
+A template ships at `repos.yaml.example` in the plugin repo.
+
 ### Resolve Story Queue
 
 Read `{sprint_status}` and resolve the full story list:
@@ -203,16 +221,20 @@ conventions exactly. You never gold-plate — if it's not in the story, you don'
 Implement the story following the spec precisely.
 
 Project root:    {resolved_project_root}
+Code root:       {resolved_code_root} (run git commands here with `git -C`)
 Story file:      {resolved_story_file_path}
 Project context: {resolved_project_context_path}
 CLAUDE.md:       {resolved_claude_md_path} (read this for project rules)
 Parent branch:   {resolved_previous_branch}
+Git remote:      {resolved_code_remote}
+Protected paths (NEVER modify — HALT and report if a task requires changes here):
+{resolved_protected_paths_list}
 
 Instructions:
 1. Read the story file completely — understand all tasks and acceptance criteria
 2. Read project-context.md and CLAUDE.md for conventions and rules
-3. Create a feature branch FROM {resolved_previous_branch}:
-   git checkout -b feat/{resolved_story_id}-{short_description} {resolved_previous_branch}
+3. Create a feature branch FROM {resolved_previous_branch} in {resolved_code_root}:
+   git -C {resolved_code_root} checkout -b feat/{resolved_story_id}-{short_description} {resolved_previous_branch}
 4. Work through the tasks in order. For each task:
    a. Write a failing test first (red)
    b. Write the minimum code to make it pass (green)
@@ -221,7 +243,7 @@ Instructions:
 5. After all tasks: run the full test suite and fix any failures
 6. Verify every acceptance criterion is covered by a test
 7. Commit all changes with descriptive messages (conventional commits)
-8. Push the branch: git push -u origin {branch_name}
+8. Push the branch: git -C {resolved_code_root} push -u {resolved_code_remote} {branch_name}
 9. Update {resolved_sprint_status_path}: set story status to "review"
 
 Rules:
@@ -265,17 +287,20 @@ better" is not a finding; "line 42 doesn't handle null, which AC-3 requires" is.
 Review the implementation and create a PR.
 
 Project root:   {resolved_project_root}
+Code root:      {resolved_code_root} (run git commands here with `git -C`)
 Story file:     {resolved_story_file_path}
 Branch:         {resolved_current_branch}
 Base branch:    {resolved_base_branch}
 Architecture:   {resolved_architecture_path}
 CLAUDE.md:      {resolved_claude_md_path} (read this for project rules)
 Mode:           {resolved_mode}
+Protected paths (NEVER edit during fix-up):
+{resolved_protected_paths_list}
 
 Instructions:
 1. Read the story file — extract all acceptance criteria and tasks
 2. Read CLAUDE.md for project rules (commit conventions, etc.)
-3. Run: git diff {resolved_base_branch}..{resolved_current_branch}
+3. Run: git -C {resolved_code_root} diff {resolved_base_branch}..{resolved_current_branch}
 4. Verify completeness:
    - For each AC: find the code that implements it AND the test that proves it
    - For each task marked done: verify the implementation exists in the diff
