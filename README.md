@@ -218,14 +218,7 @@ specs/
 ## Installation
 
 ```bash
-claude plugin install codelikehugo
-```
-
-Or install locally:
-
-```bash
-git clone https://github.com/hdendievel/codelikehugo.git
-claude plugin install ./codelikehugo
+claude plugin install --from github:hugodendievel-cmd/codelikehugo
 ```
 
 ---
