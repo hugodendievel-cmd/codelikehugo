@@ -196,6 +196,24 @@ Merge PRs in order after review.
 
 **Resume:** If the pipeline is interrupted, re-run the same `/build` command. It detects in-progress stories and picks up where it left off.
 
+### Running /build with fewer interruptions
+
+`/build` spawns three (or four) agents sequentially per story — across
+a full epic that means a lot of permission prompts. If you're on
+Claude Code Max, start your session in **auto mode** so routine
+actions (file edits, test runs, git branching) proceed without
+prompting while risky actions (force-push, production access,
+cross-repo writes) still gate:
+
+```bash
+claude --permission-mode auto
+/build epic 1
+```
+
+Pair this with `protected:` paths in `.codelikehugo/repos.yaml` to
+stop agents from wandering into code they shouldn't touch even when
+permission prompts are relaxed.
+
 ---
 
 ## Artifacts
