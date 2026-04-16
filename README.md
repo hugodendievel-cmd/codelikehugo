@@ -172,13 +172,13 @@ Hugo orchestrates a **3-agent pipeline per story**:
 ┌──────────────────────────────────────────────────────────┐
 │  For each story in the epic:                             │
 │                                                          │
-│  ┌─────────┐     ┌─────────┐     ┌─────────┐            │
-│  │ Florent │ ──> │ Romain  │ ──> │ Victor  │            │
-│  │ (write) │     │  (dev)  │     │(review) │            │
-│  └────┬────┘     └────┬────┘     └────┬────┘            │
+│  ┌─────────┐     ┌─────────┐     ┌─────────┐             │
+│  │ Florent │ ──> │ Romain  │ ──> │ Victor  │             │
+│  │ (write) │     │  (dev)  │     │(review) │             │
+│  └────┬────┘     └────┬────┘     └────┬────┘             │
 │       │               │               │                  │
 │   story file      code + tests    PR created             │
-│                   branch pushed   issues fixed            │
+│                   branch pushed   issues fixed           │
 └──────────────────────────────────────────────────────────┘
 ```
 
