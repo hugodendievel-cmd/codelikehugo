@@ -258,9 +258,16 @@ See `repos.yaml.example` for the full schema.
 
 ## Installation
 
+Add this repo as a Claude Code marketplace, then install the plugin:
+
 ```bash
-claude plugin install --from github:hugodendievel-cmd/codelikehugo
+claude plugin marketplace add hugodendievel-cmd/codelikehugo
+claude plugin install codelikehugo@codelikehugo
 ```
+
+Scope the install with `--scope user|project|local` as needed
+(default: `user`). Run `claude plugin update codelikehugo` later to
+pull new commits.
 
 ---
 

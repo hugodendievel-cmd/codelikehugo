@@ -1,0 +1,14 @@
+{
+  "name": "codelikehugo",
+  "owner": {
+    "name": "Hugo Dendievel",
+    "email": "hugo@dendievel.me"
+  },
+  "plugins": [
+    {
+      "name": "codelikehugo",
+      "source": "./",
+      "description": "Lightweight spec-driven development workflow. Goes from idea to implementation through structured discovery, architecture, planning, and execution — without the ceremony."
+    }
+  ]
+}
