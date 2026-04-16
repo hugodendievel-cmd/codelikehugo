@@ -33,6 +33,9 @@ Parse for:
 - **Mode** (optional): `auto` (default) or `interactive`
   - `auto`: no confirmations, auto-fix review issues, run all stories without pausing
   - `interactive`: pause between stages, allow stopping mid-pipeline
+- **Deep review flag** (optional): `--deep-review`
+  - Forces the Stage 4 `/ultrareview` pass regardless of the repos.yaml policy.
+  - Ignored if `{ultrareview_policy}` is already `always`.
 
 If arguments are missing or insufficient, ask the user which epic or stories to build.
 
@@ -81,6 +84,7 @@ use defaults below. If present, parse and resolve:
 - `{code_remote}` — git remote to push to (default: `origin`)
 - `{code_default_branch}` — base branch for first PR (default: auto-detect `main`/`master`)
 - `{protected_paths}` — list of read-only glob patterns (default: empty)
+- `{ultrareview_policy}` — `never` | `on-demand` | `large-only` | `always` (default: `never`)
 
 If `{code_root}` differs from the project root, run git commands for
 Romain/Victor with `git -C {code_root}` so branches and commits land in
@@ -335,6 +339,41 @@ After Victor completes:
 
 If mode is `interactive` AND more stories remain:
   - Ask: "{remaining} stories left. Continue? [y / stop]"
+
+---
+
+### Stage 4: Deep Review (optional)
+
+Decide whether to run this stage for the current story:
+
+- `{ultrareview_policy}` = `never` and no `--deep-review` flag → **skip**
+- `{ultrareview_policy}` = `on-demand` and no `--deep-review` flag → **skip**
+- `{ultrareview_policy}` = `large-only` → run only if the story file's
+  frontmatter contains `size: large`; otherwise skip
+- `{ultrareview_policy}` = `always`, or user passed `--deep-review` → **run**
+
+If skipping, continue to Post-Story Housekeeping.
+
+If running, inform the user: "**[{n}/{total}] Stage 4/4: Deep review**
+— running `/ultrareview` on PR `{pr_url}`"
+
+Invoke the built-in `/ultrareview` slash command against the current
+PR. It spawns a remote review session independent of Victor's local
+pass. When it returns:
+
+- If the remote review surfaces **HIGH-severity findings**, spawn
+  Victor again with the findings prepended to his prompt. He fixes
+  them on the same branch and pushes (no new PR needed — the existing
+  PR picks up the new commits).
+- If findings are only MEDIUM or LOW, log them as PR comments for the
+  human reviewer and continue.
+- If the remote review fails (quota exhausted, service down,
+  connectivity issue), log a warning like
+  `Stage 4 skipped: {reason}. Victor's local review already passed.`
+  and continue — do not HALT the pipeline.
+
+After Stage 4 completes (or is skipped), proceed to Post-Story
+Housekeeping.
 
 ---
 

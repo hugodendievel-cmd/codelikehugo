@@ -37,3 +37,17 @@
 #   - vendor/**
 #   - third_party/**
 #   # - packages/shared-lib/**   # submodule owned by another team
+
+# --- Review policy ------------------------------------------------------
+# Controls whether Victor's local review chains into `/ultrareview` for
+# a deeper remote review pass. `/ultrareview` is a Claude Code built-in
+# (Pro/Max tiers) that spawns a dedicated remote session for independent
+# review — useful as a second opinion, but each run consumes your quota.
+# Options:
+#   never       — skip /ultrareview (default)
+#   on-demand   — only when the user passes `--deep-review` to /build
+#   large-only  — auto-trigger for stories with `size: large` frontmatter
+#   always      — always run (WARNING: burns quota fast on big epics)
+#
+# review:
+#   ultrareview: never
