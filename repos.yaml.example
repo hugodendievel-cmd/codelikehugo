@@ -39,10 +39,13 @@
 #   # - packages/shared-lib/**   # submodule owned by another team
 
 # --- Review policy ------------------------------------------------------
-# Controls whether Victor's local review chains into `/ultrareview` for
-# a deeper remote review pass. `/ultrareview` is a Claude Code built-in
-# (Pro/Max tiers) that spawns a dedicated remote session for independent
-# review — useful as a second opinion, but each run consumes your quota.
+# Controls whether Victor's local review chains into a deeper,
+# independent second review pass.
+# - Claude Code: uses the built-in `/ultrareview` (Pro/Max tiers), which
+#   spawns a dedicated remote session — useful as a second opinion, but
+#   each run consumes your quota.
+# - OpenCode: runs an independent second Victor pass via the Task tool
+#   (local, no external quota).
 # Options:
 #   never       — skip /ultrareview (default)
 #   on-demand   — only when the user passes `--deep-review` to /build
