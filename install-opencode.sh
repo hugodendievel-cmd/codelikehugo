@@ -19,7 +19,8 @@ EOF
 }
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SRC_COMMANDS="$REPO_ROOT/.opencode/commands"
+SRC_COMMANDS="$REPO_ROOT/.opencode/commands/codelikehugo"
+LEGACY_COMMANDS="$REPO_ROOT/.opencode/commands"
 SRC_AGENTS="$REPO_ROOT/.opencode/agents"
 CONFIG_DIR="${OPENCODE_CONFIG_DIR:-$HOME/.config/opencode}"
 
@@ -52,7 +53,8 @@ remove_managed() {
 }
 
 if [[ "$ACTION" == "uninstall" ]]; then
-  remove_managed "$CONFIG_DIR/commands" "$SRC_COMMANDS"
+  remove_managed "$CONFIG_DIR/commands" "$LEGACY_COMMANDS"
+  remove_managed "$CONFIG_DIR/commands/codelikehugo" "$SRC_COMMANDS"
   remove_managed "$CONFIG_DIR/agents" "$SRC_AGENTS"
   echo "codelikehugo uninstalled from $CONFIG_DIR"
   exit 0
@@ -78,10 +80,11 @@ install_dir() {
   done
 }
 
-install_dir "$SRC_COMMANDS" "$CONFIG_DIR/commands"
+remove_managed "$CONFIG_DIR/commands" "$LEGACY_COMMANDS"
+install_dir "$SRC_COMMANDS" "$CONFIG_DIR/commands/codelikehugo"
 install_dir "$SRC_AGENTS" "$CONFIG_DIR/agents"
 
 echo ""
-echo "Done. Commands: /init /plan /build /story /dev /review /map /discover /architect /update /distill /status"
-echo "Note: /init overrides OpenCode's built-in /init command."
+echo "Done. Commands: /codelikehugo/init /codelikehugo/plan /codelikehugo/build /codelikehugo/story /codelikehugo/dev /codelikehugo/review /codelikehugo/map /codelikehugo/discover /codelikehugo/architect /codelikehugo/update /codelikehugo/distill /codelikehugo/status"
+echo "Commands are namespaced and do not override OpenCode built-ins."
 echo "OpenCode reloads commands and agents automatically."

@@ -13,7 +13,7 @@ You are **Hugo**, the lead orchestrator.
 
 Your job is to understand the project and produce foundational specs — project context, architecture, and PRD (if applicable) — by launching your team in parallel.
 
-This command does NOT create epics or sprint plans. Use `/plan` for that after init is done.
+This command does NOT create epics or sprint plans. Use `/codelikehugo/plan` for that after init is done.
 
 **Your team:**
 - **Chloé** (Analyst, subagent `chloe`) — scans the codebase
@@ -86,7 +86,7 @@ Determine output paths:
 - If `_bmad-output/` exists: write to `_bmad-output/project-context.md` and `_bmad-output/planning-artifacts/architecture.md`
 - Otherwise: create `specs/` if needed and write to `specs/project-context.md` and `specs/architecture.md`
 - Do NOT create `specs/` if `_bmad-output/` exists — that would cause format ambiguity
-- If output files already exist, warn the user before overwriting: "These files already exist. Overwrite? (Use `/update` for targeted changes instead.)"
+- If output files already exist, warn the user before overwriting: "These files already exist. Overwrite? (Use `/codelikehugo/update` for targeted changes instead.)"
 
 After all 3 agents return, synthesize their findings into:
 
@@ -112,8 +112,8 @@ After all 3 agents return, synthesize their findings into:
 Present a summary of findings to the user (10-15 bullet points max). Ask if anything needs adjustment. Make changes if requested.
 
 Tell the user: "Specs are ready. Next steps:
-- **`/plan`** to break work into epics and stories
-- **`/build`** to execute stories once a plan exists"
+- **`/codelikehugo/plan`** to break work into epics and stories
+- **`/codelikehugo/build`** to execute stories once a plan exists"
 
 ---
 
@@ -176,8 +176,8 @@ Include:
 Present all artifacts to the user. Ask if anything needs adjustment. Make changes if requested.
 
 Tell the user: "Specs are ready. Next steps:
-- **`/plan`** to break work into epics and stories
-- **`/build`** to execute stories once a plan exists"
+- **`/codelikehugo/plan`** to break work into epics and stories
+- **`/codelikehugo/build`** to execute stories once a plan exists"
 
 ---
 

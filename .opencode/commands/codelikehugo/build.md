@@ -67,9 +67,9 @@ Check which format is present (BMAD or codelikehugo):
 - `{project_context}` = `specs/project-context.md`
 - Sprint status format: nested YAML with `epics:` → `stories:` structure.
 
-If both exist, prefer `specs/` (codelikehugo). If neither exists, HALT: "No specs found. Run `/init` first."
+If both exist, prefer `specs/` (codelikehugo). If neither exists, HALT: "No specs found. Run `/codelikehugo/init` first."
 
-After detecting the format, verify `{sprint_status}` file exists. If not, HALT: "No sprint status found. Run `/plan` first to create epics and stories."
+After detecting the format, verify `{sprint_status}` file exists. If not, HALT: "No sprint status found. Run `/codelikehugo/plan` first to create epics and stories."
 
 Report: "Detected **{format}** artifacts at `{path}`."
 

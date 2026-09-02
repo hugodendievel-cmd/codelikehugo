@@ -286,6 +286,14 @@ it globally so every project gets the commands:
 ./install-opencode.sh --uninstall
 ```
 
+Commands are namespaced to avoid collisions with OpenCode built-ins:
+
+```text
+/codelikehugo/init
+/codelikehugo/plan
+/codelikehugo/build epic 1
+```
+
 OpenCode reloads commands and agents automatically. To scope it to a
 single project instead, copy or symlink `.opencode/commands` and
 `.opencode/agents` into that project's `.opencode/` directory.

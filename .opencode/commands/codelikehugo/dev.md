@@ -97,7 +97,7 @@ Tell the user:
 - Key files created/modified
 - Test results
 - Anything that needs attention or follow-up
-- Suggest: "Run `/review` to code review and create a PR."
+- Suggest: "Run `/codelikehugo/review` to code review and create a PR."
 
 ## Rules
 

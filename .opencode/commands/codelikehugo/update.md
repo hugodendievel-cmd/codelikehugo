@@ -109,4 +109,4 @@ Report:
 - What was changed in each file
 - Any cascading impacts applied
 - Any in-flight stories that need attention
-- Suggested next steps (re-run `/story` for affected stories, etc.)
+- Suggested next steps (re-run `/codelikehugo/story` for affected stories, etc.)

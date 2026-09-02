@@ -23,7 +23,7 @@ Check which format is present:
 - Read `specs/sprint-status.yaml`
 - Stories dir: `specs/stories/`
 
-If neither exists: "No sprint status found. Run `/init` then `/plan` first."
+If neither exists: "No sprint status found. Run `/codelikehugo/init` then `/codelikehugo/plan` first."
 
 ## Step 2: Parse & Display
 
