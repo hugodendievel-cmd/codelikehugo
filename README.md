@@ -1,6 +1,6 @@
 <p align="center">
   <strong>codelikehugo</strong><br>
-  <em>Spec-driven development for Claude Code — from idea to PRs, without the ceremony.</em>
+  <em>Spec-driven development for Claude Code and OpenCode — from idea to PRs, without the ceremony.</em>
 </p>
 
 <p align="center">
@@ -199,14 +199,18 @@ Merge PRs in order after review.
 ### Running /build with fewer interruptions
 
 `/build` spawns three (or four) agents sequentially per story — across
-a full epic that means a lot of permission prompts. If you're on
-Claude Code Max, start your session in **auto mode** so routine
-actions (file edits, test runs, git branching) proceed without
-prompting while risky actions (force-push, production access,
-cross-repo writes) still gate:
+a full epic that means a lot of permission prompts. Start your session
+in an auto-approve mode so routine actions (file edits, test runs, git
+branching) proceed without prompting while risky actions (force-push,
+production access, cross-repo writes) still gate:
 
 ```bash
+# Claude Code (Max)
 claude --permission-mode auto
+
+# OpenCode
+opencode --auto
+
 /build epic 1
 ```
 
@@ -258,6 +262,8 @@ See `repos.yaml.example` for the full schema.
 
 ## Installation
 
+### Claude Code
+
 Add this repo as a Claude Code marketplace, then install the plugin:
 
 ```bash
@@ -268,6 +274,33 @@ claude plugin install codelikehugo@codelikehugo
 Scope the install with `--scope user|project|local` as needed
 (default: `user`). Run `claude plugin update codelikehugo` later to
 pull new commits.
+
+### OpenCode
+
+The OpenCode variant lives in `.opencode/` (commands + agents). Install
+it globally so every project gets the commands:
+
+```bash
+./install-opencode.sh            # symlinks into ~/.config/opencode
+./install-opencode.sh --copy     # copy instead of symlink
+./install-opencode.sh --uninstall
+```
+
+OpenCode reloads commands and agents automatically. To scope it to a
+single project instead, copy or symlink `.opencode/commands` and
+`.opencode/agents` into that project's `.opencode/` directory.
+
+OpenCode differences to be aware of:
+
+- Project rules are read from `AGENTS.md` (falls back to `CLAUDE.md`).
+- The deep-review stage uses an independent second Victor pass via the
+  Task tool instead of Claude Code's remote `/ultrareview`.
+- Tool access is configured per agent via `permission` frontmatter in
+  `.opencode/agents/*.md` rather than `allowed-tools`.
+- Models are inherited from your session by default. To reproduce the
+  Sonnet/Opus split, set `model: provider/model` in each agent file
+  (analysis agents on a fast model, `romain` and `victor` on your
+  strongest one).
 
 ---
 
@@ -283,6 +316,7 @@ pull new commits.
 | **TDD by default** | Tests first, implementation second |
 | **Adversarial reviews** | Find real issues, not style preferences |
 | **BMAD compatible** | Drop in alongside existing BMAD artifacts — no migration needed |
+| **Two runtimes** | Same pipeline, artifacts, and commands in Claude Code and OpenCode |
 
 ---
 
